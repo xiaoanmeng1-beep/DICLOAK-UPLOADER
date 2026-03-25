@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>WinSCP 配置说明</title>
+<style>
+body { font-family: 'Segoe UI', sans-serif; max-width: 700px; margin: 40px auto; padding: 0 20px; color: #333; line-height: 1.8; }
+h1 { font-size: 22px; border-bottom: 2px solid #4a6cf7; padding-bottom: 8px; }
+h2 { font-size: 16px; color: #4a6cf7; margin-top: 24px; }
+code { background: #f0f1f4; padding: 2px 6px; border-radius: 4px; font-size: 13px; }
+pre { background: #f0f1f4; padding: 12px 16px; border-radius: 8px; overflow-x: auto; font-size: 13px; }
+ol li { margin-bottom: 8px; }
+.note { background: #fff3cd; border-left: 4px solid #e8a317; padding: 10px 14px; border-radius: 4px; margin: 12px 0; font-size: 13px; }
+</style>
+</head>
+<body>
+<h1>WinSCP 配置说明</h1>
+
+<h2>1. 安装 WinSCP</h2>
+<p>确保已安装 WinSCP，默认路径为：<code>D:\工具安装路径\avast杀毒软件工具\WinSCP\WinSCP.com</code></p>
+<p>如果安装在其他位置，请在设置面板中修改 WinSCP 路径。</p>
+
+<h2>2. 配置 Session</h2>
+<ol>
+<li>打开 WinSCP 图形界面（WinSCP.exe）</li>
+<li>新建站点：协议选 FTP，主机名填 <code>whitelisting.avast.com</code></li>
+<li>用户名填 <code>ftp_dicloakcom</code>，输入密码</li>
+<li>点击"保存"，站点名称保持默认（即 <code>ftp_dicloakcom@whitelisting.avast.com</code>）</li>
+<li>确认能正常连接后关闭 WinSCP</li>
+</ol>
+
+<div class="note">
+<strong>注意：</strong>上传工具使用的是 WinSCP 命令行版本（WinSCP.com），它会自动读取图形界面中保存的 Session。
+确保 Session 名称为 <code>ftp_dicloakcom@whitelisting.avast.com</code>。
+</div>
+
+<h2>3. 远程目录</h2>
+<p>上传目标目录为 <code>/data/</code>，对应 Avast 白名单提交路径。</p>
+<p>连接后远程根目录是 <code>/</code>，里面有 <code>data</code> 文件夹。</p>
+
+<h2>4. 常见问题</h2>
+<p><strong>Q: 提示"系统找不到指定的路径"</strong></p>
+<p>A: WinSCP.com 路径配置错误，请在设置中检查路径是否正确。</p>
+
+<p><strong>Q: 提示"Host does not exist"</strong></p>
+<p>A: Session 名称不对，请在 WinSCP 图形界面中确认保存的站点名称。</p>
+
+<p><strong>Q: 上传卡在 "Host:" 不动</strong></p>
+<p>A: WinSCP 没有找到保存的 Session，正在交互式询问。请先在 WinSCP 图形界面中保存站点。</p>
+</body>
+</html>

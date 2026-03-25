@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0ea5e9"/>
+      <stop offset="100%" style="stop-color:#6366f1"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="256" height="256" rx="48" fill="url(#bg2)"/>
+  <!-- Shield shape -->
+  <path d="M128 38 L198 68 L198 138 Q198 188 128 222 Q58 188 58 138 L58 68 Z" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.6)" stroke-width="3"/>
+  <!-- Upload arrow inside shield -->
+  <path d="M128 85 L155 118 L140 118 L140 160 L116 160 L116 118 L101 118 Z" fill="white"/>
+  <!-- Small dots decoration -->
+  <circle cx="128" cy="185" r="4" fill="rgba(255,255,255,0.7)"/>
+  <circle cx="143" cy="180" r="3" fill="rgba(255,255,255,0.5)"/>
+  <circle cx="113" cy="180" r="3" fill="rgba(255,255,255,0.5)"/>
+</svg>

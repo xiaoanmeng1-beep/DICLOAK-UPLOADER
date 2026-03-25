@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="256" height="256" rx="48" fill="url(#bg1)"/>
+  <!-- Cloud -->
+  <path d="M65 170 Q65 145 85 140 Q88 118 110 115 Q125 100 148 105 Q170 95 188 110 Q205 110 210 128 Q225 132 225 150 Q225 170 205 170 Z" fill="rgba(255,255,255,0.25)"/>
+  <!-- Upload arrow -->
+  <path d="M128 75 L158 115 L140 115 L140 155 L116 155 L116 115 L98 115 Z" fill="white"/>
+  <!-- Speed lines -->
+  <rect x="88" y="165" width="30" height="4" rx="2" fill="rgba(255,255,255,0.5)"/>
+  <rect x="125" y="165" width="45" height="4" rx="2" fill="rgba(255,255,255,0.5)"/>
+  <!-- D letter accent -->
+  <text x="30" y="60" font-family="Arial Black, Arial" font-weight="900" font-size="42" fill="rgba(255,255,255,0.9)">D</text>
+</svg>

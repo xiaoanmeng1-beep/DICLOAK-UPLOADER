@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DICloak 上传工具</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">DC</div>
+        <div class="sidebar-title">版本管理</div>
+      </div>
+      <button class="btn btn-primary btn-pull" id="btn-pull-ftp">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        拉取新版本
+      </button>
+      <div class="version-list" id="version-list">
+        <!-- 版本项动态生成 -->
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <div class="header-text">
+            <h1>DICloak 上传工具</h1>
+            <span class="subtitle">360 软件平台 & Avast 白名单</span>
+          </div>
+          <span class="current-version-badge" id="current-version-badge" style="display:none;"></span>
+        </div>
+        <button class="btn-icon" id="btn-settings" title="设置">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </header>
+
+      <!-- Settings Panel (hidden by default) -->
+      <div class="settings-panel" id="settings-panel" style="display:none;">
+        <div class="settings-grid">
+          <div class="setting-group">
+            <label>360 账号</label>
+            <input type="text" id="input-username" placeholder="手机号/邮箱">
+          </div>
+          <div class="setting-group">
+            <label>360 密码</label>
+            <input type="password" id="input-password" placeholder="密码">
+          </div>
+          <div class="setting-group">
+            <label>FTP 用户名</label>
+            <input type="text" id="input-ftp-user" placeholder="FTP 用户名">
+          </div>
+          <div class="setting-group">
+            <label>FTP 密码</label>
+            <input type="password" id="input-ftp-password" placeholder="FTP 密码">
+          </div>
+          <div class="setting-group">
+            <label>WinSCP 路径</label>
+            <input type="text" id="input-winscp-path" placeholder="WinSCP.com 路径">
+          </div>
+          <div class="setting-group setting-actions">
+            <a href="#" class="btn btn-sm btn-outline" id="btn-winscp-doc" title="打开 WinSCP 配置说明">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              WinSCP 配置
+            </a>
+            <button class="btn btn-primary" id="btn-save-settings">保存设置</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- File Cards Container -->
+      <div class="cards-container">
+        <!-- Section: Windows -->
+        <div class="section-label">Windows 安装包</div>
+
+        <!-- 360: exe-x64 -->
+        <div class="file-card" data-slot="exe-x64">
+          <div class="card-header">
+            <span class="card-badge badge-360">360</span>
+            <span class="card-title">64位 安装包</span>
+            <span class="card-ext">.exe</span>
+            <span class="status-dot" data-status="empty"></span>
+          </div>
+          <div class="drop-zone" data-slot="exe-x64">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span>拖拽文件 或 <a href="#" class="select-link">选择</a></span>
+          </div>
+          <div class="file-info" style="display:none;">
+            <div class="info-row">
+              <span class="info-label">文件</span>
+              <span class="info-value file-name">—</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">版本</span>
+              <input type="text" class="version-input" readonly>
+              <span class="info-label" style="margin-left:12px;">大小</span>
+              <span class="info-value file-size">—</span>
+            </div>
+            <div class="card-actions">
+              <button class="btn btn-sm btn-outline btn-replace">替换</button>
+              <button class="btn btn-sm btn-outline btn-danger btn-delete">删除</button>
+              <button class="btn btn-sm btn-primary btn-upload">上传到360</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 360: exe-ia32 -->
+        <div class="file-card" data-slot="exe-ia32">
+          <div class="card-header">
+            <span class="card-badge badge-360">360</span>
+            <span class="card-title">32位 安装包</span>
+            <span class="card-ext">.exe</span>
+            <span class="status-dot" data-status="empty"></span>
+          </div>
+          <div class="drop-zone" data-slot="exe-ia32">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span>拖拽文件 或 <a href="#" class="select-link">选择</a></span>
+          </div>
+          <div class="file-info" style="display:none;">
+            <div class="info-row">
+              <span class="info-label">文件</span>
+              <span class="info-value file-name">—</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">版本</span>
+              <input type="text" class="version-input" readonly>
+              <span class="info-label" style="margin-left:12px;">大小</span>
+              <span class="info-value file-size">—</span>
+            </div>
+            <div class="card-actions">
+              <button class="btn btn-sm btn-outline btn-replace">替换</button>
+              <button class="btn btn-sm btn-outline btn-danger btn-delete">删除</button>
+              <button class="btn btn-sm btn-primary btn-upload">上传到360</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- WinSCP: zip-x64 -->
+        <div class="file-card" data-slot="zip-x64">
+          <div class="card-header">
+            <span class="card-badge badge-winscp">WinSCP</span>
+            <span class="card-title">64位 压缩包</span>
+            <span class="card-ext">.zip</span>
+            <span class="status-dot" data-status="empty"></span>
+          </div>
+          <div class="drop-zone" data-slot="zip-x64">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span>拖拽文件 或 <a href="#" class="select-link">选择</a></span>
+          </div>
+          <div class="file-info" style="display:none;">
+            <div class="info-row">
+              <span class="info-label">文件</span>
+              <span class="info-value file-name">—</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">版本</span>
+              <input type="text" class="version-input" readonly>
+              <span class="info-label" style="margin-left:12px;">大小</span>
+              <span class="info-value file-size">—</span>
+            </div>
+            <div class="card-actions">
+              <button class="btn btn-sm btn-outline btn-replace">替换</button>
+              <button class="btn btn-sm btn-outline btn-danger btn-delete">删除</button>
+              <button class="btn btn-sm btn-accent btn-upload">上传到服务器</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- WinSCP: zip-ia32 -->
+        <div class="file-card" data-slot="zip-ia32">
+          <div class="card-header">
+            <span class="card-badge badge-winscp">WinSCP</span>
+            <span class="card-title">32位 压缩包</span>
+            <span class="card-ext">.zip</span>
+            <span class="status-dot" data-status="empty"></span>
+          </div>
+          <div class="drop-zone" data-slot="zip-ia32">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span>拖拽文件 或 <a href="#" class="select-link">选择</a></span>
+          </div>
+          <div class="file-info" style="display:none;">
+            <div class="info-row">
+              <span class="info-label">文件</span>
+              <span class="info-value file-name">—</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">版本</span>
+              <input type="text" class="version-input" readonly>
+              <span class="info-label" style="margin-left:12px;">大小</span>
+              <span class="info-value file-size">—</span>
+            </div>
+            <div class="card-actions">
+              <button class="btn btn-sm btn-outline btn-replace">替换</button>
+              <button class="btn btn-sm btn-outline btn-danger btn-delete">删除</button>
+              <button class="btn btn-sm btn-accent btn-upload">上传到服务器</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: macOS -->
+        <div class="section-label">macOS 安装包</div>
+
+        <!-- Mac: dmg-arm64 -->
+        <div class="file-card file-card-mac" data-slot="dmg-arm64">
+          <div class="card-header">
+            <span class="card-badge badge-mac">Mac</span>
+            <span class="card-title">ARM64 (Apple Silicon)</span>
+            <span class="card-ext">.dmg</span>
+            <span class="status-dot" data-status="empty"></span>
+          </div>
+          <div class="drop-zone" data-slot="dmg-arm64">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span>拖拽文件 或 <a href="#" class="select-link">选择</a></span>
+          </div>
+          <div class="file-info" style="display:none;">
+            <div class="info-row">
+              <span class="info-label">文件</span>
+              <span class="info-value file-name">—</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">版本</span>
+              <input type="text" class="version-input" readonly>
+              <span class="info-label" style="margin-left:12px;">大小</span>
+              <span class="info-value file-size">—</span>
+            </div>
+            <div class="card-actions">
+              <button class="btn btn-sm btn-outline btn-replace">替换</button>
+              <button class="btn btn-sm btn-outline btn-danger btn-delete">删除</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mac: dmg-x64 -->
+        <div class="file-card file-card-mac" data-slot="dmg-x64">
+          <div class="card-header">
+            <span class="card-badge badge-mac">Mac</span>
+            <span class="card-title">Intel x64</span>
+            <span class="card-ext">.dmg</span>
+            <span class="status-dot" data-status="empty"></span>
+          </div>
+          <div class="drop-zone" data-slot="dmg-x64">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span>拖拽文件 或 <a href="#" class="select-link">选择</a></span>
+          </div>
+          <div class="file-info" style="display:none;">
+            <div class="info-row">
+              <span class="info-label">文件</span>
+              <span class="info-value file-name">—</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">版本</span>
+              <input type="text" class="version-input" readonly>
+              <span class="info-label" style="margin-left:12px;">大小</span>
+              <span class="info-value file-size">—</span>
+            </div>
+            <div class="card-actions">
+              <button class="btn btn-sm btn-outline btn-replace">替换</button>
+              <button class="btn btn-sm btn-outline btn-danger btn-delete">删除</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="bottom-bar">
+        <button class="btn btn-lg btn-primary" id="btn-upload-all">全部上传</button>
+        <button class="btn btn-lg btn-outline" id="btn-open-dir">打开存放目录</button>
+      </div>
+
+      <!-- Log Panel -->
+      <div class="log-panel">
+        <div class="log-header">
+          <span>日志</span>
+          <button class="btn-icon btn-clear-log" id="btn-clear-log" title="清除日志">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="log-content" id="log-content">
+          <div class="log-entry">工具已启动，等待操作...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

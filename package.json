@@ -1,0 +1,43 @@
+{
+  "name": "dicloak-uploader",
+  "version": "1.0.0",
+  "description": "DICloak 360 上传工具",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "start:silent": "start /B node_modules\\electron\\dist\\electron.exe .",
+    "build": "electron-builder --win"
+  },
+  "build": {
+    "appId": "com.dicloak.uploader",
+    "productName": "DICloak 上传工具",
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "node_modules/**/*",
+      "!node_modules/playwright/.local-browsers/**/*"
+    ],
+    "extraResources": [],
+    "asar": false
+  },
+  "dependencies": {
+    "basic-ftp": "^5.2.0",
+    "playwright": "^1.49.0"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^26.8.1",
+    "png-to-ico": "^3.0.1",
+    "sharp": "^0.34.5"
+  }
+}
