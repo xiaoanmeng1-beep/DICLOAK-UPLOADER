@@ -10,21 +10,60 @@
   <div class="app">
     <!-- Sidebar -->
     <aside class="sidebar">
-      <div class="sidebar-header">
-        <div class="logo">DC</div>
-        <div class="sidebar-title">版本管理</div>
+      <!-- 导航 Tab -->
+      <div class="sidebar-nav">
+        <button class="sidebar-nav-btn active" data-page="upload">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          上传工具
+        </button>
+        <button class="sidebar-nav-btn" data-page="kernel">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          内核签名
+        </button>
       </div>
-      <button class="btn btn-primary btn-pull" id="btn-pull-ftp">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        拉取新版本
-      </button>
-      <div class="version-list" id="version-list">
-        <!-- 版本项动态生成 -->
+
+      <!-- 上传工具侧边栏 -->
+      <div class="sidebar-page" data-for="upload">
+        <div class="sidebar-header">
+          <div class="logo">DC</div>
+          <div class="sidebar-title">版本管理</div>
+        </div>
+        <button class="btn btn-primary btn-pull" id="btn-pull-ftp">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          拉取新版本
+        </button>
+        <div class="version-list" id="version-list">
+          <!-- 版本项动态生成 -->
+        </div>
+      </div>
+
+      <!-- 内核签名侧边栏 -->
+      <div class="sidebar-page" data-for="kernel" style="display:none;">
+        <div class="sidebar-header">
+          <div class="logo" style="background: linear-gradient(135deg, #e8731e, #e5384b);">KS</div>
+          <div class="sidebar-title">内核签名</div>
+        </div>
+        <button class="btn btn-primary btn-pull" id="btn-refresh-core">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          刷新文件列表
+        </button>
+        <div class="kernel-sidebar-info">
+          <div class="kernel-sidebar-item">
+            <span class="kernel-sidebar-label">跟踪版本</span>
+            <span class="kernel-sidebar-value" id="kernel-versions-count">4</span>
+          </div>
+          <div class="kernel-sidebar-item">
+            <span class="kernel-sidebar-label">待处理</span>
+            <span class="kernel-sidebar-value" id="kernel-pending-count">0</span>
+          </div>
+        </div>
       </div>
     </aside>
 
     <!-- Main Content -->
     <div class="main-content">
+      <!-- 上传工具页面 -->
+      <div class="page-content" data-page="upload">
       <!-- Header -->
       <header class="header">
         <div class="header-left">
@@ -283,9 +322,106 @@
           <div class="log-entry">工具已启动，等待操作...</div>
         </div>
       </div>
+      </div><!-- /page-content upload -->
+
+      <!-- 内核签名页面 -->
+      <div class="page-content" data-page="kernel" style="display:none;">
+        <header class="header">
+          <div class="header-left">
+            <div class="header-text">
+              <h1>内核签名工具</h1>
+              <span class="subtitle">GinsBrowser 内核代码签名</span>
+            </div>
+          </div>
+          <button class="btn-icon" id="btn-kernel-settings" title="签名设置">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </header>
+
+        <!-- 签名设置面板 -->
+        <div class="settings-panel" id="kernel-settings-panel" style="display:none;">
+          <div class="settings-grid">
+            <div class="setting-group">
+              <label>签名证书指纹</label>
+              <input type="text" id="input-sign-thumbprint" placeholder="证书 SHA1 指纹">
+            </div>
+            <div class="setting-group">
+              <label>Signtool 路径</label>
+              <input type="text" id="input-signtool-path" placeholder="signtool.exe 路径">
+            </div>
+            <div class="setting-group">
+              <label>Bandizip 路径 (可选)</label>
+              <input type="text" id="input-bandizip-path" placeholder="留空自动检测">
+            </div>
+            <div class="setting-group setting-actions">
+              <button class="btn btn-primary" id="btn-save-kernel-settings">保存设置</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SimplySign 提醒 -->
+        <div class="simplysign-reminder" id="simplysign-reminder">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          请确保 SimplySign Desktop 已连接并完成 2FA 验证
+        </div>
+
+        <!-- 步骤指示器 -->
+        <div class="step-indicator" id="step-indicator">
+          <div class="step" data-step="pull">
+            <div class="step-icon">1</div>
+            <span>拉取</span>
+          </div>
+          <div class="step-arrow">&rarr;</div>
+          <div class="step" data-step="extract">
+            <div class="step-icon">2</div>
+            <span>解压</span>
+          </div>
+          <div class="step-arrow">&rarr;</div>
+          <div class="step" data-step="sign">
+            <div class="step-icon">3</div>
+            <span>签名</span>
+          </div>
+          <div class="step-arrow">&rarr;</div>
+          <div class="step" data-step="pack">
+            <div class="step-icon">4</div>
+            <span>打包</span>
+          </div>
+          <div class="step-arrow">&rarr;</div>
+          <div class="step" data-step="upload">
+            <div class="step-icon">5</div>
+            <span>回传</span>
+          </div>
+        </div>
+
+        <!-- 版本卡片容器 -->
+        <div class="kernel-cards-container" id="kernel-cards-container">
+          <div class="kernel-empty-state">点击「刷新文件列表」加载内核文件</div>
+        </div>
+
+        <!-- 底部操作栏 -->
+        <div class="bottom-bar">
+          <button class="btn btn-lg btn-primary" id="btn-start-signing" disabled>开始签名流程</button>
+          <button class="btn btn-lg btn-outline btn-danger" id="btn-cancel-signing" style="display:none;">取消</button>
+        </div>
+
+        <!-- 签名日志面板 -->
+        <div class="log-panel">
+          <div class="log-header">
+            <span>签名日志</span>
+            <button class="btn-icon btn-clear-log" id="btn-clear-kernel-log" title="清除日志">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          <div class="log-content" id="kernel-log-content">
+            <div class="log-entry">内核签名工具已就绪，请先刷新文件列表...</div>
+          </div>
+        </div>
+      </div><!-- /page-content kernel -->
+
     </div>
   </div>
 
   <script src="renderer.js"></script>
+  <script src="renderer-kernel.js"></script>
 </body>
 </html>

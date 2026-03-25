@@ -322,6 +322,24 @@ function setupButtons() {
 
 // ── 初始化 ──
 async function init() {
+  // 页面切换逻辑
+  document.querySelectorAll('.sidebar-nav-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const page = btn.dataset.page;
+      document.querySelectorAll('.sidebar-nav-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.page-content').forEach(p => p.style.display = 'none');
+      document.querySelectorAll('.sidebar-page').forEach(p => p.style.display = 'none');
+      const pageContent = document.querySelector(`.page-content[data-page="${page}"]`);
+      const sidebarPage = document.querySelector(`.sidebar-page[data-for="${page}"]`);
+      if (pageContent) pageContent.style.display = 'flex';
+      if (sidebarPage) sidebarPage.style.display = 'flex';
+    });
+  });
+
+  // 初始化内核签名页面
+  if (window.initKernelPage) window.initKernelPage();
+
   setupDragDrop();
   setupButtons();
 

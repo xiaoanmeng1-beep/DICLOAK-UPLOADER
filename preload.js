@@ -21,6 +21,12 @@ contextBridge.exposeInMainWorld('api', {
   pullFromFTP: () => ipcRenderer.invoke('pull-from-ftp'),
   // 打开 WinSCP 文档
   openWinSCPDoc: () => ipcRenderer.invoke('open-winscp-doc'),
+  // 内核签名
+  listCoreFiles: () => ipcRenderer.invoke('list-core-files'),
+  startKernelSigning: (selections) => ipcRenderer.invoke('start-kernel-signing', selections),
+  cancelKernelSigning: () => ipcRenderer.invoke('cancel-kernel-signing'),
+  onKernelLog: (callback) => ipcRenderer.on('kernel-log', (event, msg) => callback(msg)),
+  onKernelProgress: (callback) => ipcRenderer.on('kernel-progress', (event, data) => callback(data)),
   // 事件监听
   onLog: (callback) => ipcRenderer.on('log', (event, msg) => callback(msg)),
   onUploadStatus: (callback) => ipcRenderer.on('upload-status', (event, data) => callback(data))

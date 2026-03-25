@@ -4,9 +4,11 @@ const FileManager = require('./src/file-manager');
 const Uploader360 = require('./src/uploader-360');
 const UploaderWinSCP = require('./src/uploader-winscp');
 const FTPPuller = require('./src/ftp-puller');
+const KernelSigner = require('./src/kernel-signer');
 const Config = require('./src/config');
 
 let mainWindow;
+let activeKernelSigner = null;
 const config = new Config();
 const fileManager = new FileManager(config);
 
@@ -208,4 +210,30 @@ ipcMain.handle('upload-all', async () => {
   }
 
   return results;
+});
+
+// IPC: 内核签名
+ipcMain.handle('list-core-files', async () => {
+  const signer = new KernelSigner(config, (msg) => {
+    mainWindow.webContents.send('kernel-log', msg);
+  });
+  return signer.listCoreFiles();
+});
+
+ipcMain.handle('start-kernel-signing', async (event, selections) => {
+  activeKernelSigner = new KernelSigner(
+    config,
+    (msg) => mainWindow.webContents.send('kernel-log', msg),
+    (data) => mainWindow.webContents.send('kernel-progress', data)
+  );
+  const result = await activeKernelSigner.runPipeline(selections);
+  activeKernelSigner = null;
+  return result;
+});
+
+ipcMain.handle('cancel-kernel-signing', () => {
+  if (activeKernelSigner) {
+    activeKernelSigner.cancel();
+  }
+  return { success: true };
 });
